@@ -35,7 +35,7 @@ var platoOpts = {
 	complexity : complexityOpts
 };
 // Target Files
-var sources = ['app.js', 'gulpfile.js', './lib/*.js', './test/specs/*.js'];
+var sources = ['index.js', 'gulpfile.js', './lib/*.js', './test/specs/*.js'];
 var pkg = './package.json';
 var tests = './test/specs/*.js';
 
