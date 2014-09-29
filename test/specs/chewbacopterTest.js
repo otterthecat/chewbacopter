@@ -37,12 +37,51 @@ describe('Chewbacopter ', function () {
 
 	describe('#use ', function () {
 		var client = {
-			config : function () {}
+			config : sinon.spy()
 		};
 		var chewie = new Chewie();
-		chewie.use(client);
+		var returnValue = chewie.use(client);
 		it('should set drone property via argument', function () {
 			chewie.drone.should.equal(client);
+		});
+
+		it('should set drone config to get navdata.demo object', function () {
+			client.config.withArgs('general:navdata_demo', 'TRUE').should.have.been.calledOnce;
+		});
+
+		it('should return chewbacopter object for chaining', function () {
+			returnValue.should.equal(chewie);
+		});
+	});
+
+	describe('#format ', function () {
+		var chewie = new Chewie();
+		var fakeData = {
+			demo : {
+				distance : 20
+			}
+		};
+		var returnValue = chewie.format(fakeData);
+
+		it('should return parsed string', function () {
+			returnValue.should.be.a.string;
+		});
+	});
+
+	describe('#copilot ', function () {
+		var client = {
+			config : function () {},
+			on : sinon.spy()
+		};
+		var chewie = new Chewie();
+		var returnValue = chewie.use(client).copilot();
+
+		it('should listen for navdata changes from drone client', function () {
+			client.on.withArgs('navdata', chewie.format).should.have.been.calledOnce;
+		});
+
+		it('should return chewbacopter instance for chaining', function () {
+			returnValue.should.equal(chewie);
 		});
 	});
 });
