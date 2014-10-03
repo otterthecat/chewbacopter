@@ -131,7 +131,7 @@ gulp.task('coverage', function (cb) {
 
 gulp.task('watch', function () {
 	'use strict';
-	gulp.watch(sources, ['format', 'lint', 'complexity', 'test']);
+	gulp.watch(sources, ['format', 'lint', 'test']);
 });
 
 // Grouped Tasks
