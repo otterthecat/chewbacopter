@@ -109,6 +109,10 @@ gulp.task('test', function (cb) {
 		.on('finish', function () {
 			gulp.src(tests)
 				.pipe(mocha({reporter : 'nyan'}))
+				.on('error', function (err) {
+					console.log('ERROR:');
+					console.log(err);
+				})
 				.pipe(istanbul.writeReports({
 					reporters : ['text-summary']
 				}))
