@@ -68,13 +68,13 @@ describe('Chewbacopter ', function () {
 		});
 	});
 
-	describe('#copilot ', function () {
+	describe('#monitor ', function () {
 		var client = {
 			config : function () {},
 			on : sinon.spy()
 		};
 		var chewie = new Chewie();
-		var returnValue = chewie.use(client).copilot();
+		var returnValue = chewie.use(client).monitor();
 
 		it('should listen for navdata changes from drone client', function () {
 			client.on.withArgs('navdata', chewie.format).should.have.been.calledOnce;
