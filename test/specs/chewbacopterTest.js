@@ -30,8 +30,7 @@ describe('Chewbacopter ', function () {
 		});
 
 		it('should have navData property default to null', function () {
-			var isNull = chewie.navData === null;
-			isNull.should.equal(true);
+			chewie.navData.should.be.an('object');
 		});
 	});
 
@@ -39,10 +38,15 @@ describe('Chewbacopter ', function () {
 		var client = {
 			config : sinon.spy()
 		};
+		var dataArray = ['batteryPercentage', 'altitudeMeters'];
 		var chewie = new Chewie();
-		var returnValue = chewie.use(client);
+		var returnValue = chewie.use(client, dataArray);
 		it('should set drone property via argument', function () {
 			chewie.drone.should.equal(client);
+		});
+
+		it('should set navData property via 2nd argument', function () {
+			chewie.navData.should.have.keys(['batteryPercentage', 'altitudeMeters']);
 		});
 
 		it('should set drone config to get navdata.demo object', function () {
@@ -52,19 +56,57 @@ describe('Chewbacopter ', function () {
 		it('should return chewbacopter object for chaining', function () {
 			returnValue.should.equal(chewie);
 		});
+
+		describe('when not passed property array', function () {
+			var chewie = new Chewie();
+			var drone = {
+				config : function () {}
+			};
+			chewie.use(drone);
+
+			it('should apply all available properties to navData', function () {
+				chewie.navData.should.have.keys([
+					'controlState',
+					'flyState',
+					'batteryPercentage',
+					'rotation', // object
+					'frontBackDegrees',
+					'leftRightDegrees',
+					'clockwiseDegrees',
+					'altitude',
+					'altitudeMeters',
+					'velocity', // object
+					'xVelocity',
+					'yVelocity',
+					'zVelocity',
+					'frameIndex',
+					'detection', // object
+					'drone' // object
+				]);
+			});
+		});
 	});
 
 	describe('#format ', function () {
 		var chewie = new Chewie();
 		var fakeData = {
 			demo : {
-				distance : 20
+				distance : 20,
+				batteryPercentage : 15
 			}
 		};
-		var returnValue = chewie.format(fakeData);
+		var returnValue = chewie.use(
+				{config : function () {}},
+				['batteryPercentage']
+			).format(fakeData);
 
 		it('should return parsed string', function () {
 			returnValue.should.be.a.string;
+		});
+
+		it('should include only properties applied to navData', function () {
+			returnValue.should.contain('batteryPercentage');
+			returnValue.should.not.contain('distance');
 		});
 	});
 
@@ -74,7 +116,7 @@ describe('Chewbacopter ', function () {
 			on : sinon.spy()
 		};
 		var chewie = new Chewie();
-		var returnValue = chewie.use(client).monitor();
+		var returnValue = chewie.use(client, []).monitor();
 
 		it('should listen for navdata changes from drone client', function () {
 			client.on.withArgs('navdata', chewie.format).should.have.been.calledOnce;
