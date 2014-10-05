@@ -1,4 +1,5 @@
 /* jshint expr: true */
+/* jshint maxstatements: 10 */
 // assertion library
 // /////////////////////////////////////////////////////////
 var chai = require('chai');
