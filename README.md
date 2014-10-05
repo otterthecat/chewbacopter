@@ -3,7 +3,7 @@ View data from AR-Drone in terminal while you're flying solo.
 
 ## API
 
-### #use(ar-drone-client, ['property', 'list'])
+### #use(ar-drone-client, ['properties'])
 The first argument tells the chewbacopter which drone client to use, and
 the second (and optional) argument lets you choose which data points to display.
 Not passing this argument will return all available data.
