@@ -13,8 +13,21 @@
 		"type": "git",
 		"url": "https://github.com/otterthecat/chewbacopter.git"
 	},
+  "bugs": {
+    "url": "https://github.com/otterthecat/chewbacopter/issues"
+  },
+  "directories": {
+    "lib": "./lib",
+    "test": "./test",
+    "example": "./examples"
+  },
+  "licenses": {
+    "type": "MIT",
+    "url": "https://github.com/otterthecat/chewbacopter/blob/master/LICENSE.txt"
+  },
+  "main": "index.js",
 	"scripts": {
-		"test": "mocha"
+		"test": "./node_modules/.bin/gulp"
 	},
 	"dependencies": {
 		"chalk": "^0.5.1",
