@@ -119,7 +119,11 @@ describe('Chewbacopter ', function () {
 		var returnValue = chewie.use(client, []).monitor();
 
 		it('should listen for navdata changes from drone client', function () {
-			client.on.withArgs('navdata', chewie.format).should.have.been.calledOnce;
+			var passedArgs = client.on.args[0];
+			// first argument should be the event,
+			// second should be the callback
+			passedArgs[0].should.equal('navdata');
+			passedArgs[1].should.be.a('function');
 		});
 
 		it('should return chewbacopter instance for chaining', function () {
