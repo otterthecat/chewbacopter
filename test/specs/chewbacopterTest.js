@@ -93,12 +93,15 @@ describe('Chewbacopter ', function () {
 		var fakeData = {
 			demo : {
 				distance : 20,
-				batteryPercentage : 15
+				batteryPercentage : 15,
+				drone : {
+					fakeOption : 3
+				}
 			}
 		};
 		var returnValue = chewie.use(
 				{config : function () {}},
-				['batteryPercentage']
+				['batteryPercentage', 'drone']
 			).format(fakeData);
 
 		it('should return parsed string', function () {
@@ -107,6 +110,8 @@ describe('Chewbacopter ', function () {
 
 		it('should include only properties applied to navData', function () {
 			returnValue.should.contain('batteryPercentage');
+			returnValue.should.contain('drone');
+			returnValue.should.contain('fakeOption');
 			returnValue.should.not.contain('distance');
 		});
 	});
